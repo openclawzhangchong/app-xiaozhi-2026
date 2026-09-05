@@ -19,8 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  # 保留 Dart 3.13（Flutter 3.47.2）：业务包（riverpod 3.4.3 / go_router 18 / record 7 等）
-  # 要求 Dart >=3.12；代码生成栈降至 freezed 2.4.7 自洽档（analyzer 6.x）。
+  # Dart 3.13.x shipped with Flutter 3.47.2 (latest stable). The caret range
+  # allows up to (but not including) Dart 4.0.0.
   sdk: ^3.13.0
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -55,8 +55,8 @@ dependencies:
   go_router: ^18.0.1
 
   # JSON 序列化
-  json_annotation: 4.8.1
-  freezed_annotation: 2.4.1
+  json_annotation: ^4.12.0
+  freezed_annotation: ^3.1.0
 
   # UI 组件
   cached_network_image: ^4.0.0
@@ -86,18 +86,15 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # 代码生成（精确钉版，避免上浮到破坏 Dart 3.13 的版本）
-  # 关键：freezed 必须钉在 2.4.7 —— 2.5.x 会在工厂构造函数参数生成 `required final`，
-  #       该写法在 Dart 3.13.2 下非法（"Can't have modifier 'final' here"）。
-  #       上游 xiaozhi-client-flutter 之所以能用 ^2.4.7 成功，是因为它跑 Dart 3.8（接受该写法），
-  #       而本仓库业务包（riverpod 3.4.3 等）要求 Dart >=3.12，无法降级 Dart，故钉 freezed=2.4.7。
-  # 注：json_serializable 必须钉在 6.7.1（6.8.0 要求 json_annotation >=4.9.0，与本仓库 4.8.1 冲突）。
-  build_runner: 2.4.13
-  json_serializable: 6.7.1
-  freezed: 2.4.7
-  # 注：hive_generator / retrofit_generator 已被移除——本仓库未使用 @HiveType / @RestApi 代码生成。
-  # 注：mockito 已移除——代码库无任何 @GenerateMocks / import 'package:mockito' 引用，且 mockito 5.8.1
-  #     要求 analyzer >=13.3，与 freezed 2.4.7 自洽栈（analyzer 6.x）互斥。
+  # 代码生成
+  build_runner: ^2.16.1
+  json_serializable: ^6.14.1
+  freezed: ^4.0.1
+  # 注：hive_generator / retrofit_generator 已被移除——本仓库未使用 @HiveType / @RestApi
+  # 代码生成，二者与 freezed 4.x 的 analyzer 约束（>=13.3）冲突，会导致 `flutter pub get` 版本求解失败。
+
+  # 测试
+  mockito: ^5.8.1
 
   # 代码质量
   flutter_lints: ^6.0.0
