@@ -43,7 +43,7 @@ dependencies:
   dio: ^5.11.1
   retrofit: ^4.10.0
   http: ^1.6.0
-  web_socket_channel: ^3.0.3
+  web_socket_channel: ^2.4.0
 
   # 本地存储
   shared_preferences: ^2.5.5
@@ -55,8 +55,8 @@ dependencies:
   go_router: ^18.0.1
 
   # JSON 序列化
-  json_annotation: ^4.12.0
-  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.4
 
   # UI 组件
   cached_network_image: ^4.0.0
@@ -86,15 +86,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # 代码生成
-  build_runner: ^2.16.1
-  json_serializable: ^6.14.1
-  freezed: ^4.0.1
-  # 注：hive_generator / retrofit_generator 已被移除——本仓库未使用 @HiveType / @RestApi
-  # 代码生成，二者与 freezed 4.x 的 analyzer 约束（>=13.3）冲突，会导致 `flutter pub get` 版本求解失败。
+  # 代码生成：统一锁定在 analyzer 6.x / build 2.4.x 时代，确保 freezed 2.5.7、
+  # json_serializable 6.9.0、build_runner 2.4.x、mockito 5.4.4 互相兼容
+  # （新版 build_runner / mockito 会拉取 analyzer 7.x，与 freezed 2.5.7 的 <7.0.0 约束冲突）。
+  build_runner: ">=2.4.11 <2.5.0"
+  json_serializable: ^6.9.0
+  freezed: ^2.5.7
+  analyzer: ">=6.5.0 <7.0.0"
 
   # 测试
-  mockito: ^5.8.1
+  mockito: ^5.4.4
 
   # 代码质量
   flutter_lints: ^6.0.0

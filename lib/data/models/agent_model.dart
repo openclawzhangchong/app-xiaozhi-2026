@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'agent_model.freezed.dart';
+part 'agent_model.g.dart';
 
 /// 智能体模型
 @freezed
