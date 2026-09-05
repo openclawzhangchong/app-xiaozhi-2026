@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'message_model.freezed.dart';
-part 'message_model.g.dart';
 
 /// 消息类型
 enum MessageType {

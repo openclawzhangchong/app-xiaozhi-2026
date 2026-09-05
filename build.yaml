@@ -1,0 +1,15 @@
+# build.yaml
+#
+# freezed 4 会自行把 JSON 序列化代码生成进 *.freezed.dart（由类上的
+# @JsonSerializable() 触发）。模型文件若同时被全局的 json_serializable
+# builder 处理，会因 freezed 已接管构造函数而出现
+# "Cannot populate the required constructor argument" 的生成错误。
+# 因此将 lib/data/models/** 排除在 json_serializable 的生成范围之外，
+# 仅交由 freezed 处理。
+targets:
+  $default:
+    builders:
+      json_serializable:
+        generate_for:
+          exclude:
+            - lib/data/models/**
