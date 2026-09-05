@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:/n  contents: write
+  packages: write
+
 jobs:
   build-android:
     name: Build Android (APK + AAB)
