@@ -142,7 +142,9 @@ class _VoiceWaveVisualizerState extends State<VoiceWaveVisualizer>
     } else if (widget.activeColor != null) {
       barColor = widget.activeColor!;
     } else {
-      barColor = isDark ? const Color(0xFFD0BCFF) : const Color(0xFF6750A4);
+      barColor = isDark
+          ? const Color(0xFF4CD07D)
+          : const Color(0xFF07C160);
     }
 
     return SizedBox(

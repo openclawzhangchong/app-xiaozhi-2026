@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../../../app/themes/wechat_theme.dart';
 import '../../../../data/models/message_model.dart';
-import '../../../../app/themes/app_colors.dart';
 
-/// 聊天消息气泡组件
+/// 聊天消息气泡组件（微信风格）
 class MessageBubble extends StatelessWidget {
   final MessageModel message;
 
@@ -16,78 +16,98 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bubbleColor = WeChatColors.bubble(isUser, isDark);
+    final textColor = isUser
+        ? (isDark ? const Color(0xFF0E0E0E) : const Color(0xFF181818))
+        : (isDark ? WeChatColors.textPrimaryDark : WeChatColors.textPrimary);
+
+    final bubble = Container(
+      constraints: const BoxConstraints(maxWidth: 260),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: bubbleColor,
+        borderRadius: BorderRadius.circular(WeChatDimens.radiusBubble),
+      ),
+      child: _buildContentByType(textColor, isDark),
+    );
+
+    final tail = WeChatBubbleTail(color: bubbleColor, isUser: isUser);
+
+    final avatar = WeChatAvatar(
+      name: isUser ? '我' : 'AI',
+      isUser: isUser,
+      isDark: isDark,
+      size: 38,
+    );
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       child: Row(
         mainAxisAlignment:
             isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!isUser) ...[
-            _buildAvatar(),
+            avatar,
             const SizedBox(width: 8),
-          ],
-          Flexible(
-            child: Column(
-              crossAxisAlignment:
-                  isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-              children: [
-                _buildMessageContent(context),
-                const SizedBox(height: 4),
-                _buildTimestamp(),
-              ],
+            Expanded(
+              child: _bubbleColumn(bubble, tail),
             ),
-          ),
-          if (isUser) ...[
+          ] else ...[
+            Expanded(
+              child: _bubbleColumn(bubble, tail),
+            ),
             const SizedBox(width: 8),
-            _buildAvatar(),
+            avatar,
           ],
         ],
       ),
     );
   }
 
-  /// 头像
-  Widget _buildAvatar() {
-    return CircleAvatar(
-      radius: 18,
-      backgroundColor: isUser ? AppColors.primary : AppColors.secondary,
-      child: Icon(
-        isUser ? Icons.person : Icons.smart_toy,
-        size: 20,
-        color: Colors.white,
-      ),
-    );
-  }
+  /// 气泡 + 尖角 + 时间戳列
+  Widget _bubbleColumn(Widget bubble, Widget tail) {
+    // 用户（右）：气泡在左、尖角在右（指向头像）；AI（左）：尖角在左、气泡在右。
+    final rowChildren = isUser
+        ? [bubble, const SizedBox(width: 2), tail]
+        : [tail, const SizedBox(width: 2), bubble];
 
-  /// 消息内容
-  Widget _buildMessageContent(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: isUser
-            ? (isDark ? AppColors.userMessageBgDark : AppColors.userMessageBg)
-            : (isDark ? AppColors.aiMessageBgDark : AppColors.aiMessageBg),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: _buildContentByType(),
+    return Column(
+      crossAxisAlignment:
+          isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment:
+              isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: rowChildren,
+        ),
+        const SizedBox(height: 4),
+        Padding(
+          padding: EdgeInsets.only(
+            left: isUser ? 0 : 9,
+            right: isUser ? 9 : 0,
+          ),
+          child: _buildTimestamp(),
+        ),
+      ],
     );
   }
 
   /// 根据消息类型构建内容
-  Widget _buildContentByType() {
+  Widget _buildContentByType(Color textColor, bool isDark) {
     switch (message.type) {
       case MessageType.text:
         return SelectableText(
           message.content,
-          style: const TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 16, color: textColor, height: 1.4),
         );
 
       case MessageType.image:
         return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(4),
           child: CachedNetworkImage(
             imageUrl: message.content,
             width: 200,
@@ -104,9 +124,9 @@ class MessageBubble extends StatelessWidget {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.play_circle_outline, size: 24),
+            Icon(Icons.play_circle_outline, size: 24, color: textColor),
             const SizedBox(width: 8),
-            SelectableText(message.content),
+            SelectableText(message.content, style: TextStyle(color: textColor)),
           ],
         );
 
@@ -115,7 +135,9 @@ class MessageBubble extends StatelessWidget {
           message.content,
           style: TextStyle(
             fontSize: 13,
-            color: Colors.grey[600],
+            color: isDark
+                ? WeChatColors.textSecondaryDark
+                : WeChatColors.textSecondary,
             fontStyle: FontStyle.italic,
           ),
         );
@@ -126,12 +148,12 @@ class MessageBubble extends StatelessWidget {
   Widget _buildTimestamp() {
     final time = message.timestamp;
     final timeStr = '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
-    
+
     return Text(
       timeStr,
       style: TextStyle(
         fontSize: 11,
-        color: Colors.grey[600],
+        color: WeChatColors.timestamp,
       ),
     );
   }

@@ -59,14 +59,14 @@ class AppTextStyles {
 
   // 消息样式
   static const TextStyle messageUser = TextStyle(
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
     height: 1.4,
   );
 
   static const TextStyle messageAI = TextStyle(
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.normal,
     color: AppColors.textPrimary,
     height: 1.4,

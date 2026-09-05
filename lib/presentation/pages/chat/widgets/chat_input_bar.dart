@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../../app/themes/wechat_theme.dart';
 
-/// 聊天输入栏组件
+/// 聊天输入栏组件（微信风格）
 class ChatInputBar extends StatefulWidget {
   final TextEditingController textController;
   final VoidCallback onSendText;
@@ -45,17 +46,21 @@ class _ChatInputBarState extends State<ChatInputBar> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final barBg = isDark ? WeChatColors.tabBarBackgroundDark : WeChatColors.fieldBackground;
+    final fieldBg = isDark ? WeChatColors.fieldBackgroundDark : Colors.white;
+    final iconColor = isDark ? WeChatColors.textSecondaryDark : WeChatColors.textSecondary;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 4,
-            offset: const Offset(0, -2),
+        color: barBg,
+        border: Border(
+          top: BorderSide(
+            color: isDark ? WeChatColors.dividerDark : WeChatColors.divider,
+            width: 0.5,
           ),
-        ],
+        ),
       ),
       child: SafeArea(
         child: Row(
@@ -64,12 +69,14 @@ class _ChatInputBarState extends State<ChatInputBar> {
             // 语音按钮
             IconButton(
               icon: const Icon(Icons.mic_outlined),
+              color: iconColor,
               onPressed: widget.onStartVoice,
               tooltip: '按住说话',
             ),
             // 图片按钮
             IconButton(
               icon: const Icon(Icons.image_outlined),
+              color: iconColor,
               onPressed: widget.onPickImage,
               tooltip: '发送图片',
             ),
@@ -79,10 +86,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
               child: Container(
                 constraints: const BoxConstraints(maxHeight: 120),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.grey[100]
-                      : Colors.grey[800],
-                  borderRadius: BorderRadius.circular(20),
+                  color: fieldBg,
+                  borderRadius: BorderRadius.circular(4),
                 ),
                 child: TextField(
                   controller: widget.textController,
@@ -90,7 +95,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                     hintText: '输入消息...',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
+                      horizontal: 12,
                       vertical: 10,
                     ),
                   ),
@@ -107,14 +112,16 @@ class _ChatInputBarState extends State<ChatInputBar> {
 
             const SizedBox(width: 4),
 
-            // 发送按钮
+            // 发送按钮（有文字时显示绿色）
             IconButton(
-              icon: const Icon(Icons.send),
+              icon: Icon(
+                Icons.send,
+                color: _hasText
+                    ? WeChatColors.green
+                    : (isDark ? WeChatColors.textSecondaryDark : WeChatColors.textSecondary),
+              ),
               onPressed: _hasText ? widget.onSendText : null,
               tooltip: '发送',
-              color: _hasText
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey,
             ),
           ],
         ),

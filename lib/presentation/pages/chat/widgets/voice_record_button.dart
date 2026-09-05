@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
+import 'package:xiaozhi_client_flutter/app/themes/wechat_theme.dart';
 import 'package:xiaozhi_client_flutter/core/utils/audio_util.dart';
 import 'voice_wave_visualizer.dart';
 
@@ -48,7 +49,7 @@ class _VoiceRecordButtonState extends State<VoiceRecordButton> {
       if (_isCancelling) {
         textColor = isDark ? Colors.red[300]! : Colors.red[700]!;
       } else {
-        textColor = isDark ? const Color(0xFFD0BCFF) : const Color(0xFF6750A4);
+        textColor = isDark ? WeChatColors.greenLightDark : WeChatColors.green;
       }
     } else {
       textColor = isDark ? Colors.grey[300]! : Colors.grey[700]!;
@@ -70,11 +71,9 @@ class _VoiceRecordButtonState extends State<VoiceRecordButton> {
               decoration: BoxDecoration(
                 color: (_isRecording || _isContinuousListening)
                     ? (_isCancelling
-                          ? (isDark ? Colors.red[900] : Colors.red[100])
-                          : (isDark
-                                ? const Color(0xFF4A4458)
-                                : const Color(0xFFE8DEF8)))
-                    : (isDark ? Colors.grey[800] : Colors.grey[100]),
+                          ? (isDark ? Colors.red[900]! : Colors.red[100]!)
+                          : (isDark ? Colors.grey[800]! : Colors.grey[100]!))
+                    : (isDark ? Colors.grey[800]! : Colors.grey[100]!),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Center(
