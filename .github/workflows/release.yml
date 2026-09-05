@@ -22,15 +22,28 @@ jobs:
 
       - name: Set up Flutter (clone exact version 3.47.2)
         run: |
-          git clone --depth 1 --branch 3.47.2 https://github.com/flutter/flutter.git "$HOME/flutter-sdk"
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry git clone --depth 1 --branch 3.47.2 https://github.com/flutter/flutter.git "$HOME/flutter-sdk"
           echo "$HOME/flutter-sdk/bin" >> "$GITHUB_PATH"
         shell: bash
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Pre-download Dart SDK (with retry)
+        run: |
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry flutter --version
+        shell: bash
 
-      - name: Generate code (freezed / json_serializable / hive)
-        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Install dependencies
+        run: |
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry flutter pub get
+        shell: bash
+
+      - name: Generate code (freezed / json_serializable)
+        run: |
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry dart run build_runner build --delete-conflicting-outputs
+        shell: bash
 
       - name: Build APK (release)
         run: flutter build apk --release
@@ -65,15 +78,28 @@ jobs:
 
       - name: Set up Flutter (clone exact version 3.47.2)
         run: |
-          git clone --depth 1 --branch 3.47.2 https://github.com/flutter/flutter.git "$HOME/flutter-sdk"
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry git clone --depth 1 --branch 3.47.2 https://github.com/flutter/flutter.git "$HOME/flutter-sdk"
           echo "$HOME/flutter-sdk/bin" >> "$GITHUB_PATH"
         shell: bash
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Pre-download Dart SDK (with retry)
+        run: |
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry flutter --version
+        shell: bash
 
-      - name: Generate code (freezed / json_serializable / hive)
-        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Install dependencies
+        run: |
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry flutter pub get
+        shell: bash
+
+      - name: Generate code (freezed / json_serializable)
+        run: |
+          retry() { for i in 1 2 3 4 5; do echo "== attempt $i =="; "$@" && return 0; echo "retry $i failed, sleep 8"; sleep 8; done; return 1; }
+          retry dart run build_runner build --delete-conflicting-outputs
+        shell: bash
 
       - name: Build Web (release)
         run: flutter build web --release
