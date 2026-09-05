@@ -6,7 +6,8 @@ on:
       - 'v*'
   workflow_dispatch:
 
-permissions:/n  contents: write
+permissions:
+  contents: write
   packages: write
 
 jobs:
