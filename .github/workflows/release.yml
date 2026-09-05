@@ -45,6 +45,12 @@ jobs:
           retry dart run build_runner build --delete-conflicting-outputs
         shell: bash
 
+      - name: Diagnostic - dump generated model files
+        run: |
+          echo "===== agent_model.freezed.dart ====="; cat lib/data/models/agent_model.freezed.dart 2>/dev/null || echo MISSING
+          echo "===== agent_model.g.dart ====="; cat lib/data/models/agent_model.g.dart 2>/dev/null || echo MISSING
+        shell: bash
+
       - name: Build APK (release)
         run: flutter build apk --release
 
