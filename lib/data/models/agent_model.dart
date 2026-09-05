@@ -5,7 +5,7 @@ part 'agent_model.g.dart';
 
 /// 智能体模型
 @freezed
-class AgentModel with _$AgentModel {
+abstract class AgentModel with _$AgentModel {
   const factory AgentModel({
     required String id,
     required String name,
