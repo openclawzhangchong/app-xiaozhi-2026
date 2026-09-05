@@ -28,7 +28,7 @@ enum MessageStatus {
 
 /// 消息模型
 @freezed
-class MessageModel with _$MessageModel {
+abstract class MessageModel with _$MessageModel {
   const factory MessageModel({
     required String id,
     required String content,
