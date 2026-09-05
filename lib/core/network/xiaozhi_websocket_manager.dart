@@ -112,8 +112,8 @@ class XiaozhiWebSocketManager {
           logger.info('添加默认Authorization头: Bearer test-token');
         }
 
-        // 使用IOWebSocketChannel并传递headers
-        _channel = IOWebSocketChannel.connect(uri, headers: headers);
+        // 使用跨平台 WebSocketChannel 并传递 headers（原生端生效，Web 端忽略）
+        _channel = WebSocketChannel.connect(uri, headers: headers);
 
         logger.info('使用headers方式连接WebSocket成功');
       } catch (e) {
