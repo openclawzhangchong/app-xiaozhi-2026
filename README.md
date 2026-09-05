@@ -1,8 +1,8 @@
 # 小智 AI 助手 (XiaoZhi AI Assistant)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.9.2+-blue.svg" alt="Flutter">
-  <img src="https://img.shields.io/badge/Dart-3.9.2+-blue.svg" alt="Dart">
+  <img src="https://img.shields.io/badge/Flutter-3.47.2+-blue.svg" alt="Flutter">
+  <img src="https://img.shields.io/badge/Dart-3.13.2+-blue.svg" alt="Dart">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
 </p>
 
@@ -10,17 +10,17 @@
 
 ## 下载地址
 
-- [app-release.apk](https://github.com/eiriksgata/xiaozhi-client-flutter/releases)
-- ios 自行构建
+- [app-release.apk](https://github.com/openclawzhangchong/app-xiaozhi-2026/releases)
+- iOS 自行构建（见下方构建说明）
 
 ## 支持平台
 
 - [x] Android
-- [x] IOS
+- [x] iOS
 - [ ] Windows
-- [ ] Macos
-- [ ] linux
-- [ ] Web
+- [ ] MacOS
+- [ ] Linux
+- [x] Web（由 GitHub Actions 自动构建）
 
 ## 📱 应用截图
 
@@ -53,7 +53,7 @@
 - 💬 **实时对话** - 基于 WebSocket 的流式对话，支持文本和语音实时交互
 - 🎤 **语音交互** - 支持语音输入（STT）和语音输出（TTS），使用 Opus 音频编解码
 - 📱 **跨平台支持** - Android、iOS、Web、Windows、macOS、Linux
-- 🎨 **Material 3 设计** - 现代化 UI 设计，支持浅色/深色主题
+- 🎨 **微信风格 UI** - 参考 weui.io 的微信风格设计，简洁清爽，支持浅色/深色主题
 - 🔄 **连接管理** - 实时显示连接状态，支持断线重连
 - 💾 **本地存储** - 智能体配置本地持久化存储
 
@@ -69,46 +69,46 @@
 
 #### 状态管理
 
-- `flutter_riverpod ^2.5.0` - 类型安全的状态管理方案
+- `flutter_riverpod ^3.4.3` - 类型安全的状态管理方案（Riverpod 3，基于 Notifier/AsyncNotifier）
 
 #### 网络层
 
-- `dio ^5.4.0` - HTTP 客户端
-- `retrofit ^4.0.0` - RESTful API 类型安全封装
+- `dio ^5.11.1` - HTTP 客户端
+- `retrofit ^4.10.0` - RESTful API 类型安全封装
 - WebSocket - 实时通信协议
 
 #### 数据持久化
 
 - `hive ^2.2.3` - 高性能 NoSQL 数据库
-- `shared_preferences ^2.2.2` - 轻量级键值存储
+- `shared_preferences ^2.5.5` - 轻量级键值存储
 
 #### 路由导航
 
-- `go_router ^13.0.0` - 声明式路由管理
+- `go_router ^18.0.1` - 声明式路由管理
 
 #### 数据模型
 
-- `freezed ^2.4.7` - 不可变数据类生成
-- `json_serializable ^6.7.1` - JSON 序列化
+- `freezed_annotation ^3.1.0` - 不可变数据类生成（freezed ^4 负责代码生成）
+- `json_serializable ^6.14.1` - JSON 序列化
 
 #### 音频处理
 
-- `record ^6.1.2` - 音频录制
+- `record ^7.1.1` - 音频录制
 - `opus_flutter ^3.0.3` - Opus 音频编解码
-- `audio_session ^0.2.2` - 音频会话管理
+- `audio_session ^0.2.4` - 音频会话管理
 
 #### UI 组件
 
-- `cached_network_image ^3.3.1` - 图片缓存加载
-- `shimmer ^3.0.0` - 加载骨架屏效果
+- `cached_network_image ^4.0.0` - 图片缓存加载
+- `shimmer ^4.0.0` - 加载骨架屏效果
 
 #### 工具库
 
-- `device_info_plus ^12.2.0` - 设备信息获取
-- `permission_handler ^11.3.0` - 权限管理
-- `uuid ^4.3.3` - UUID 生成
+- `device_info_plus ^13.2.0` - 设备信息获取
+- `permission_handler ^13.0.2` - 权限管理（已迁移至 `Permission.photos`）
+- `uuid ^4.6.0` - UUID 生成
 - `logging ^1.3.0` - 日志记录
-- `vibration ^3.1.4` - 震动反馈
+- `vibration ^3.2.1` - 震动反馈
 
 ## 📁 项目结构
 
@@ -175,18 +175,18 @@ lib/
 
 ### 环境要求
 
-- Flutter SDK: 3.9.2 或更高版本
-- Dart SDK: 3.9.2 或更高版本
+- Flutter SDK: 3.47.2 或更高版本
+- Dart SDK: 3.13.2 或更高版本
 - Android Studio / Xcode（用于移动端开发）
-- NDK 版本 21 或更高（Android）
+- NDK 版本 27.0.12077973（Android）
 
 ### 安装步骤
 
 1. **克隆项目**
 
 ```bash
-git clone https://github.com/eiriksgata/xiaozhi-client-flutter.git
-cd xiaozhi-client-flutter
+git clone https://github.com/openclawzhangchong/app-xiaozhi-2026.git
+cd app-xiaozhi-2026
 ```
 
 2. **安装依赖**
@@ -239,7 +239,7 @@ defaultConfig {
 如需修改应用 ID，编辑 `android/app/build.gradle.kts`：
 
 ```kotlin
-applicationId = "com.xiaozhi.client"
+applicationId = "cn.jiuyeke.lele"
 ```
 
 ### iOS 配置
@@ -290,7 +290,7 @@ applicationId = "com.xiaozhi.client"
 
 ## 🎨 主题定制
 
-应用支持浅色和深色主题，基于 Material 3 设计规范。
+应用支持浅色和深色主题，采用参考 weui.io 的微信风格设计（主色调微信绿 `#07C160`）。
 
 主题配置文件位于：
 
@@ -312,6 +312,8 @@ flutter test test/presentation/pages/chat/chat_page_test.dart
 ```
 
 ## 🔨 构建发布版本
+
+> **自动发布**：推送 `v*` 形式的 Git 标签（如 `v1.0.0`）即触发 GitHub Actions，自动构建 Android APK/AAB 与 Web 产物并发布到 [Releases](https://github.com/openclawzhangchong/app-xiaozhi-2026/releases)。也可在 Actions 页手动 `workflow_dispatch` 触发。
 
 ### Android APK
 
@@ -416,14 +418,15 @@ dart run build_runner build --delete-conflicting-outputs
 
 ## 👥 作者
 
-- **Eiriksgata** - [GitHub](https://github.com/eiriksgata)
+- **Eiriksgata** - 原版作者 [GitHub](https://github.com/eiriksgata)
+- 本仓库（小乐助手 `cn.jiuyeke.lele`）派生自原版，由 [openclawzhangchong](https://github.com/openclawzhangchong/app-xiaozhi-2026) 维护并做了依赖升级与微信风格 UI 重绘
 
 ## 🙏 致谢
 
-感谢所有为本项目做出贡献的开发者！
+感谢 Eiriksgata 与原项目所有贡献者！
 
 ---
 
 <p align="center">
-  Made with ❤️ by Eiriksgata
+  Made with ❤️ by Eiriksgata · 小乐助手维护版
 </p>

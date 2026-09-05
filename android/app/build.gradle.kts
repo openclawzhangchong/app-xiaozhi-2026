@@ -20,8 +20,8 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.xiaozhi.client"
+        // 应用 ID（小乐助手）：cn.jiuyeke.lele
+        applicationId = "cn.jiuyeke.lele"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // record_android 插件要求最低 SDK 版本为 23
