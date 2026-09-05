@@ -91,8 +91,9 @@ dev_dependencies:
   #       该写法在 Dart 3.13.2 下非法（"Can't have modifier 'final' here"）。
   #       上游 xiaozhi-client-flutter 之所以能用 ^2.4.7 成功，是因为它跑 Dart 3.8（接受该写法），
   #       而本仓库业务包（riverpod 3.4.3 等）要求 Dart >=3.12，无法降级 Dart，故钉 freezed=2.4.7。
+  # 注：json_serializable 必须钉在 6.7.1（6.8.0 要求 json_annotation >=4.9.0，与本仓库 4.8.1 冲突）。
   build_runner: 2.4.13
-  json_serializable: 6.8.0
+  json_serializable: 6.7.1
   freezed: 2.4.7
   # 注：hive_generator / retrofit_generator 已被移除——本仓库未使用 @HiveType / @RestApi 代码生成。
   # 注：mockito 已移除——代码库无任何 @GenerateMocks / import 'package:mockito' 引用，且 mockito 5.8.1
