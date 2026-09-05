@@ -4,7 +4,6 @@ part 'user_model.freezed.dart';
 
 /// 用户模型
 @freezed
-@JsonSerializable()
 class UserModel with _$UserModel {
   const factory UserModel({
     required String id,

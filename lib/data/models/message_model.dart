@@ -27,7 +27,6 @@ enum MessageStatus {
 
 /// 消息模型
 @freezed
-@JsonSerializable()
 class MessageModel with _$MessageModel {
   const factory MessageModel({
     required String id,

@@ -4,7 +4,6 @@ part 'agent_model.freezed.dart';
 
 /// 智能体模型
 @freezed
-@JsonSerializable()
 class AgentModel with _$AgentModel {
   const factory AgentModel({
     required String id,

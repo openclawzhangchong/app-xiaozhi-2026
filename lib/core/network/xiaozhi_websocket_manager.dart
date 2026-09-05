@@ -94,51 +94,23 @@ class XiaozhiWebSocketManager {
         logger.info('使用Token: $token');
       }
 
-      // 尝试使用headers (这在非Web平台上有效)
-      try {
-        // 创建headers
-        Map<String, dynamic> headers = {
-          'device-id': _deviceId ?? '',
-          'client-id': _deviceId ?? '',
-          'protocol-version': '1',
-        };
+      // 跨平台连接：web_socket_channel 3.x 的 WebSocketChannel.connect 不支持
+      // headers 参数（仅在 IO 实现中可用），故统一通过首条消息发送鉴权信息。
+      _channel = WebSocketChannel.connect(uri);
 
-        // 添加Authorization头，参考Java实现
-        if (_enableToken && token.isNotEmpty) {
-          headers['Authorization'] = 'Bearer $token';
-          logger.info('添加Authorization头: Bearer $token');
-        } else {
-          headers['Authorization'] = 'Bearer test-token';
-          logger.info('添加默认Authorization头: Bearer test-token');
+      // 连接成功后作为第一条消息发送认证信息
+      Timer(const Duration(milliseconds: 100), () {
+        if (_channel != null && isConnected) {
+          final String authMessage =
+              'Authorization: Bearer ${_enableToken && token.isNotEmpty ? token : "test-token"}';
+          _channel!.sink.add(authMessage);
+          logger.info('发送认证消息: $authMessage');
+
+          final String deviceIdMessage = 'Device-ID: $_deviceId';
+          _channel!.sink.add(deviceIdMessage);
+          logger.info('发送设备ID信息: $deviceIdMessage');
         }
-
-        // 使用跨平台 WebSocketChannel 并传递 headers（原生端生效，Web 端忽略）
-        _channel = WebSocketChannel.connect(uri, headers: headers);
-
-        logger.info('使用headers方式连接WebSocket成功');
-      } catch (e) {
-        // 如果不支持IOWebSocketChannel（web平台），则回退到使用基本连接
-        logger.warning('不支持使用headers方式，回退到基本连接: $e');
-
-        // 创建基本连接
-        _channel = WebSocketChannel.connect(uri);
-
-        // 在连接成功后作为第一条消息发送认证信息
-        Timer(Duration(milliseconds: 100), () {
-          if (_channel != null && isConnected) {
-            // 发送认证信息作为第一条消息
-            String authMessage =
-                'Authorization: Bearer ${_enableToken && token.isNotEmpty ? token : "test-token"}';
-            _channel!.sink.add(authMessage);
-            logger.info('发送认证消息: $authMessage');
-
-            // 发送设备ID信息
-            String deviceIdMessage = 'Device-ID: $_deviceId';
-            _channel!.sink.add(deviceIdMessage);
-            logger.info('发送设备ID消息: $deviceIdMessage');
-          }
-        });
-      }
+      });
 
       // 监听WebSocket事件
       _streamSubscription = _channel!.stream.listen(
