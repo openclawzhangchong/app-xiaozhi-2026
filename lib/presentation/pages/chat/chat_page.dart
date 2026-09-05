@@ -377,7 +377,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     } else {
       // 如果智能体不存在，返回智能体列表页面
       if (mounted) {
-        context.go('/home');
+        context.go('/');
       }
     }
   }

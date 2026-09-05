@@ -13,27 +13,24 @@ final agentRepositoryProvider = Provider<AgentRepository>((ref) {
 
 /// Agent List Provider
 final agentListProvider =
-    StateNotifierProvider<AgentListNotifier, AsyncValue<List<AgentModel>>>(
-  (ref) => AgentListNotifier(ref.read(agentRepositoryProvider)),
+    AsyncNotifierProvider<AgentListNotifier, List<AgentModel>>(
+  AgentListNotifier.new,
 );
 
 /// Agent List Notifier
-class AgentListNotifier extends StateNotifier<AsyncValue<List<AgentModel>>> {
-  final AgentRepository _repository;
+class AgentListNotifier extends AsyncNotifier<List<AgentModel>> {
+  late final AgentRepository _repository;
 
-  AgentListNotifier(this._repository) : super(const AsyncValue.loading()) {
-    loadAgents();
+  @override
+  Future<List<AgentModel>> build() async {
+    _repository = ref.watch(agentRepositoryProvider);
+    return await _repository.getAgents();
   }
 
   /// 加载智能体列表
   Future<void> loadAgents() async {
-    state = const AsyncValue.loading();
-    try {
-      final agents = await _repository.getAgents();
-      state = AsyncValue.data(agents);
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    }
+    state = const AsyncLoading<List<AgentModel>>();
+    state = await AsyncValue.guard(() => _repository.getAgents());
   }
 
   /// 添加智能体

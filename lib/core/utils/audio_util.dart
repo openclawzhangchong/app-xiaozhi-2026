@@ -58,7 +58,7 @@ class AudioUtil {
       print('$TAG: 请求Android所需的所有权限');
       Map<Permission, PermissionStatus> statuses = await [
         Permission.microphone,
-        Permission.storage,
+        Permission.photos,
         Permission.manageExternalStorage,
         Permission.bluetooth,
         Permission.bluetoothConnect,

@@ -4,19 +4,14 @@ import '../storage/storage_service.dart';
 import '../../app/config/app_config.dart';
 
 /// 主题模式状态管理
-class ThemeModeNotifier extends StateNotifier<ThemeMode> {
-  final StorageService _storage;
+class ThemeModeNotifier extends Notifier<ThemeMode> {
+  late final StorageService _storage;
 
-  ThemeModeNotifier(this._storage) : super(ThemeMode.system) {
-    _loadThemeMode();
-  }
-
-  /// 加载保存的主题模式
-  Future<void> _loadThemeMode() async {
+  @override
+  ThemeMode build() {
+    _storage = StorageService.instance;
     final themeIndex = _storage.getInt(AppConfig.keyThemeMode);
-    if (themeIndex != null) {
-      state = ThemeMode.values[themeIndex];
-    }
+    return themeIndex != null ? ThemeMode.values[themeIndex] : ThemeMode.system;
   }
 
   /// 切换到指定主题模式
@@ -48,7 +43,6 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
 }
 
 /// 主题模式 Provider
-final themeModeProvider =
-    StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
-  return ThemeModeNotifier(StorageService.instance);
-});
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  ThemeModeNotifier.new,
+);

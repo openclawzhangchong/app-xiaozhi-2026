@@ -19,7 +19,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.0
+  # Dart 3.13.x shipped with Flutter 3.47.2 (latest stable). The caret range
+  # allows up to (but not including) Dart 4.0.0.
+  sdk: ^3.13.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -32,49 +34,49 @@ dependencies:
     sdk: flutter
 
   # UI
-  cupertino_icons: ^1.0.8
-  
+  cupertino_icons: ^1.0.9
+
   # 状态管理
-  flutter_riverpod: ^2.5.0
-  
+  flutter_riverpod: ^3.4.3
+
   # 网络请求
-  dio: ^5.4.0
-  retrofit: ^4.0.0
-  
+  dio: ^5.11.1
+  retrofit: ^4.10.0
+
   # 本地存储
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.5.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  path_provider: ^2.1.2
-  
+  path_provider: ^2.1.6
+
   # 路由导航
-  go_router: ^13.0.0
-  
+  go_router: ^18.0.1
+
   # JSON 序列化
-  json_annotation: ^4.8.1
-  freezed_annotation: ^2.4.1
-  
+  json_annotation: ^4.12.0
+  freezed_annotation: ^3.1.0
+
   # UI 组件
-  cached_network_image: ^3.3.1
-  flutter_svg: ^2.0.10
-  shimmer: ^3.0.0
-  
+  cached_network_image: ^4.0.0
+  flutter_svg: ^2.3.0
+  shimmer: ^4.0.0
+
   # 多媒体
-  image_picker: ^1.0.7
-  permission_handler: ^11.3.0
-  
+  image_picker: ^1.2.3
+  permission_handler: ^13.0.2
+
   # 工具类
-  logger: ^2.0.2
-  fluttertoast: ^8.2.4
-  intl: ^0.19.0
-  uuid: ^4.3.3
-  device_info_plus: ^12.2.0
-  record: ^6.1.2
+  logger: ^2.7.0
+  fluttertoast: ^10.0.0
+  intl: ^0.20.3
+  uuid: ^4.6.0
+  device_info_plus: ^13.2.0
+  record: ^7.1.1
   opus_dart: ^3.0.1
-  audio_session: ^0.2.2
+  audio_session: ^0.2.4
   flutter_pcm_sound: ^3.3.3
   logging: ^1.3.0
-  vibration: ^3.1.4
+  vibration: ^3.2.1
   opus_flutter: ^3.0.3
 
 dev_dependencies:
@@ -82,17 +84,17 @@ dev_dependencies:
     sdk: flutter
 
   # 代码生成
-  build_runner: ^2.4.8
-  json_serializable: ^6.7.1
-  freezed: ^2.4.7
+  build_runner: ^2.16.1
+  json_serializable: ^6.14.1
+  freezed: ^4.0.1
   hive_generator: ^2.0.1
-  retrofit_generator: ^8.0.0
-  
+  retrofit_generator: ^10.2.11
+
   # 测试
-  mockito: ^5.4.4
-  
+  mockito: ^5.8.1
+
   # 代码质量
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -116,11 +118,10 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
+  # To add custom fonts to your application, add a fonts section here, each
+  # entry in this list should have a "family" key with the font family name,
+  # and a "fonts" key with a list giving the asset and other descriptors for
+  # the font. For example:
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -17,12 +17,14 @@ class PermissionUtil {
   }
 
   /// 请求存储权限
+  /// 注：Android 13+ 起 Permission.storage 已被 Permission.photos/videos/audio 取代，
+  /// 此处使用 photos 以兼容最新 permission_handler。
   static Future<bool> requestStorage() async {
-    if (await Permission.storage.isPermanentlyDenied) {
+    if (await Permission.photos.isPermanentlyDenied) {
       await openAppSettings();
       return false;
     }
-    final status = await Permission.storage.request();
+    final status = await Permission.photos.request();
     return status.isGranted;
   }
 
@@ -51,7 +53,7 @@ class PermissionUtil {
 
   /// 检查存储权限
   static Future<bool> checkStorage() async {
-    return await Permission.storage.isGranted;
+    return await Permission.photos.isGranted;
   }
 
   /// 打开应用设置
